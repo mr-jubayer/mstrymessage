@@ -7,7 +7,7 @@ const POST = async (req: Request) => {
   try {
     const { username, email, password } = await req.json();
 
-    // await connectDB();
+    await connectDB();
 
     const existingUserVerifyByUsername = await UserModel.findOne({
       username,
@@ -92,7 +92,7 @@ const POST = async (req: Request) => {
           success: true,
           message: "User Registered Successfully. Please verify your email.",
         },
-        { status: 500 }
+        { status: 200 }
       );
     }
   } catch (error) {
