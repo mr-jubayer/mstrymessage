@@ -24,6 +24,8 @@ const authOptions: NextAuthOptions = {
       async authorize(credentials: any): Promise<any> {
         await connectDB();
 
+        console.log(credentials);
+
         const user = await UserModel.findOne({
           $or: [
             { email: credentials.identifier },
