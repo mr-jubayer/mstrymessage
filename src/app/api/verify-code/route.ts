@@ -1,5 +1,11 @@
 import connectDB from "@/lib/connectDB";
 import UserModel from "@/model/user.model";
+import { verifyCodeSchema } from "@/schemas/verifySchema";
+import { z } from "zod";
+
+const VerifyUserEmailSchema = z.object({
+  verifyCode: verifyCodeSchema,
+});
 
 const POST = async (request: Request) => {
   /*
@@ -22,6 +28,18 @@ const POST = async (request: Request) => {
           message: "User not found",
         },
         { status: 404 }
+      );
+    }
+    // Validation by zod
+    const result = VerifyUserEmailSchema.safeParse(code);
+
+    if (!result.success) {
+      return Response.json(
+        {
+          success: false,
+          message: "Verification code must be 6 digits.",
+        },
+        { status: 401 }
       );
     }
 
